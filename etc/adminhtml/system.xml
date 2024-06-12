@@ -22,13 +22,10 @@
                 </field>
                 <field id="token" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>GitHub Token</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <frontend_class>validate-password</frontend_class>
                     <sortOrder>20</sortOrder>
                     <showInDefault>1</showInDefault>
                     <showInWebsite>0</showInWebsite>
                     <showInStore>0</showInStore>
-                    <type>obscure</type>
                 </field>
             </group>
         </section>
