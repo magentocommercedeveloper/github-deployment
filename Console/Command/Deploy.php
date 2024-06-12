@@ -77,11 +77,15 @@ class Deploy extends Command
     {
         $output = [];
         $returnVar = null;
-        exec($command, $output, $returnVar);
+        exec($command . ' 2>&1', $output, $returnVar);
+        $outputText = implode("\n", $output);
+        
         if ($returnVar !== 0) {
-            $io->error(sprintf('Command "%s" failed with error: %s', $command, implode("\n", $output)));
+            $io->error(sprintf('Command "%s" failed with error: %s', $command, $outputText));
             throw new \RuntimeException(sprintf('Command "%s" failed.', $command));
         }
+        
         $io->success(sprintf('Command "%s" executed successfully.', $command));
+        $io->text($outputText);
     }
 }
