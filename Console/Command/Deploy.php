@@ -61,22 +61,30 @@ class Deploy extends Command
         $remoteUrl = sprintf('https://%s@%s', $githubToken, parse_url($githubRepoUrl, PHP_URL_HOST) . parse_url($githubRepoUrl, PHP_URL_PATH));
         $this->executeShellCommand(sprintf('git remote set-url origin %s', $remoteUrl), $io);
 
+        // Use HEAD if branch is specified as head
+        $branch = strtolower($branch) === 'head' ? 'HEAD' : $branch;
+
         // Verify the branch exists on the remote
         $io->section('Verifying remote branch...');
-        $branches = $this->executeShellCommand('git ls-remote --heads origin', $io);
-        if (strpos($branches, "refs/heads/$branch") === false) {
-            $io->error(sprintf('Branch "%s" does not exist on the remote repository.', $branch));
-            return Command::FAILURE;
+        $branchExistsOnRemote = false;
+        if ($branch !== 'HEAD') {
+            $branches = $this->executeShellCommand('git ls-remote --heads origin', $io);
+            if (strpos($branches, "refs/heads/$branch") !== false) {
+                $branchExistsOnRemote = true;
+            }
         }
 
-        // Pull the latest changes from the specified branch
-        $io->section('Pulling latest changes from the remote branch...');
-        $this->executeShellCommand(sprintf('git pull origin %s', $branch), $io);
+        // Pull the latest changes from the specified branch if it exists on the remote
+        if ($branchExistsOnRemote) {
+            $io->section('Pulling latest changes from the remote branch...');
+            $this->executeShellCommand(sprintf('git pull origin %s', $branch), $io);
+        } else {
+            $io->warning(sprintf('Branch "%s" does not exist on the remote repository. Skipping pull and pushing new branch.', $branch));
+        }
 
         // Push changes to the specified branch
         $io->section('Pushing changes to the remote branch...');
         $this->executeShellCommand(sprintf('git push origin %s', $branch), $io);
-        
 
         $io->success('Deployment completed successfully.');
         return Command::SUCCESS;

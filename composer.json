@@ -1,0 +1,18 @@
+{
+    "name": "ssquare/github",
+    "description": "Magento 2 module for deploying changes to GitHub repository",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "php": "^7.0.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ssquare\\Github\\": ""
+        }
+    }
+}
