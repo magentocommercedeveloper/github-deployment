@@ -61,6 +61,14 @@ class Deploy extends Command
         $remoteUrl = sprintf('https://%s@%s', $githubToken, parse_url($githubRepoUrl, PHP_URL_HOST) . parse_url($githubRepoUrl, PHP_URL_PATH));
         $this->executeShellCommand(sprintf('git remote set-url origin %s', $remoteUrl), $io);
 
+        // Verify the branch exists on the remote
+        $io->section('Verifying remote branch...');
+        $branches = $this->executeShellCommand('git ls-remote --heads origin', $io);
+        if (strpos($branches, "refs/heads/$branch") === false) {
+            $io->error(sprintf('Branch "%s" does not exist on the remote repository.', $branch));
+            return Command::FAILURE;
+        }
+
         // Pull the latest changes from the specified branch
         $io->section('Pulling latest changes from the remote branch...');
         $this->executeShellCommand(sprintf('git pull origin %s', $branch), $io);
@@ -79,13 +87,13 @@ class Deploy extends Command
         $returnVar = null;
         exec($command . ' 2>&1', $output, $returnVar);
         $outputText = implode("\n", $output);
-        
+
         if ($returnVar !== 0) {
             $io->error(sprintf('Command "%s" failed with error: %s', $command, $outputText));
             throw new \RuntimeException(sprintf('Command "%s" failed.', $command));
         }
-        
+
         $io->success(sprintf('Command "%s" executed successfully.', $command));
-        $io->text($outputText);
+        return $outputText;
     }
 }
