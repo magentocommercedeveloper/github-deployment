@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <tab id="ssquare" translate="label" sortOrder="10">
+            <label>Ssquare</label>
+        </tab>
+        <section id="ssquare_github" translate="label" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>GitHub Settings</label>
+            <tab>ssquare</tab>
+            <resource>Ssquare_Github::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="repo_url" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>GitHub Repository URL</label>
+                    <frontend_class>validate-url</frontend_class>
+                    <sortOrder>10</sortOrder>
+                    <showInDefault>1</showInDefault>
+                    <showInWebsite>0</showInWebsite>
+                    <showInStore>0</showInStore>
+                    <type>text</type>
+                </field>
+                <field id="token" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>GitHub Token</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <frontend_class>validate-password</frontend_class>
+                    <sortOrder>20</sortOrder>
+                    <showInDefault>1</showInDefault>
+                    <showInWebsite>0</showInWebsite>
+                    <showInStore>0</showInStore>
+                    <type>obscure</type>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

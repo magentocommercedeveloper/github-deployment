@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/menu.xsd">
+    <menu>
+        <add id="Ssquare_Github::github" title="Ssquare Github" module="Ssquare_Github" sortOrder="100" parent="Magento_Backend::stores" resource="Magento_Backend::content" />
+        <add id="Ssquare_Github::github_config"
+             title="GitHub Configuration"
+             module="Ssquare_Github"
+             sortOrder="100"
+             parent="Ssquare_Github::github"
+             action="adminhtml/system_config/edit/section/ssquare_github"
+             resource="Ssquare_Github::config"/>
+    </menu>
+</config>
