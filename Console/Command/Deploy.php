@@ -76,6 +76,7 @@ class Deploy extends Command
         // Push changes to the specified branch
         $io->section('Pushing changes to the remote branch...');
         $this->executeShellCommand(sprintf('git push origin %s', $branch), $io);
+        
 
         $io->success('Deployment completed successfully.');
         return Command::SUCCESS;
